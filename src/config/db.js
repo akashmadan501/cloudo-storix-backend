@@ -1,7 +1,9 @@
-// src/config/db.js
+const mongoose = require("mongoose");
+const { MONGO_URI } = require("./env");
 
 async function connectDB() {
-  console.log("🟢 DB connection skipped (Day 1)");
+  await mongoose.connect(MONGO_URI);
+  console.log("🟢 MongoDB connected");
 }
 
 module.exports = connectDB;

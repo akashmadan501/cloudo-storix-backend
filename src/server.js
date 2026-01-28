@@ -1,17 +1,15 @@
-// src/server.js
 const app = require("./app");
 const connectDB = require("./config/db");
-
-const PORT = process.env.PORT || 4000;
+const env = require("./config/env");
 
 async function startServer() {
   try {
     await connectDB();
-    app.listen(PORT, () => {
-      console.log(`🚀 Cloudo-Storix running on port ${PORT}`);
+    app.listen(env.PORT, () => {
+      console.log(`🚀 Cloudo-Storix running on port ${env.PORT}`);
     });
   } catch (err) {
-    console.error("❌ Failed to start server", err);
+    console.error("❌ Server startup failed", err);
     process.exit(1);
   }
 }

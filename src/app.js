@@ -1,6 +1,8 @@
 // src/app.js
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
+
 
 const healthRoutes = require("./routes/health.routes");
 const errorMiddleware = require("./middlewares/error.middleware");
