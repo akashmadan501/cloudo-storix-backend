@@ -44,3 +44,13 @@ Client tools (Postman / curl) interact directly with the API.
 - Manual deployment required
 - Increased traffic would overload a single instance
 
+## Local Infrastructure Choice
+
+MongoDB is run using Docker during local development.
+
+This avoids coupling the application to OS-specific database installations
+and ensures consistent behavior across different development environments.
+
+Using Docker at this stage allows the backend to remain portable while
+keeping the application code independent from infrastructure details.
+

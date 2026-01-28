@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:7.0
+    container_name: cloudo-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - cloudo-mongo-data:/data/db
+
+volumes:
+  cloudo-mongo-data:
