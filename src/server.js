@@ -6,10 +6,10 @@ async function startServer() {
   try {
     await connectDB();
     app.listen(env.PORT, () => {
-      console.log(`🚀 Cloudo-Storix running on port ${env.PORT}`);
+      console.log(`Cloudo-Storix running on port ${env.PORT}`);
     });
   } catch (err) {
-    console.error("❌ Server startup failed", err);
+    console.error("Server startup failed", err);
     process.exit(1);
   }
 }
