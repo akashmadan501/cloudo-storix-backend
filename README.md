@@ -1,29 +1,45 @@
 # Cloudo-Storix Backend
 
-Cloudo-Storix is an **API-first cloud storage backend** built using a **phase-based system design approach**.
+Cloudo-Storix is an **API-first cloud storage backend** designed to allow users to **securely store, manage, and retrieve their files on demand**.
 
-The purpose of this project is to understand how a backend system evolves from local development to large-scale cloud architecture by introducing technologies only when they are actually required.
+The project is built using a **phase-based system design approach** to understand how backend systems evolve from local development to cloud-scale architecture by introducing technologies **only when they are actually required**, while keeping security, scalability, and clean architecture as first-class concerns.
 
 ---
 
 ## 🧠 Project Philosophy
 
 - Build **correct systems before complex systems**
-- Introduce technology **only to solve real problems**
-- Keep business logic **independent of infrastructure**
-- Focus on scalability, security, and clean architecture
+- Separate **identity, data, and infrastructure concerns**
+- Introduce technology **to solve real problems**, not for hype
+- Design for **scaling and failure**, even in local development
+- Document architectural decisions as the system evolves
 
 ---
 
-## 🏗️ Current Phase
+## 🏗️ Current Status
 
-### Phase 1: Local Development (0–100 users)
+### Phase 1: Core Backend Foundation ✅ (Completed)
+**Scale:** 0–100 users
+
+Delivered:
+- API-first backend
+- Secure authentication & authorization
+- Stateless JWT-based auth
+- Dockerized local database
+- Clean service-based architecture
+- Health checks and documentation
+
+### Phase 2: Data & File Storage Design 🟡 (In Progress)
+**Scale:** 100–1,000 users
 
 Current focus:
-- Clean backend architecture
-- Secure authentication and authorization
-- API-first development (no frontend yet)
-- Reproducible local environment using Docker
+- Designing file storage architecture
+- Separating file metadata from file bytes
+- Preparing system for scalable object storage
+- Local-first development with cloud compatibility
+
+> File upload and download are **intentionally not implemented yet**.
+> Architecture and data modeling are completed before feature delivery.
 
 ---
 
@@ -31,53 +47,30 @@ Current focus:
 
 - **Node.js** – Runtime
 - **Express.js** – Backend framework
-- **MongoDB** – Database (Dockerized)
+- **MongoDB** – Database (Dockerized, metadata & auth data)
 - **Mongoose** – ODM
 - **bcrypt** – Secure password hashing
 - **JWT (jsonwebtoken)** – Stateless authentication
 - **Docker & Docker Compose** – Local infrastructure
-- **dotenv** – Environment variables
+- **dotenv** – Environment configuration
 - **Postman** – API testing
 
 ---
 
-## 🧩 High-Level Architecture
+## 🧩 High-Level Architecture (Current)
 
 ```
 API Client (Postman / Consumer)
-↓
-Express API
-↓
-MongoDB (Docker)
+       ↓
+   Express API
+       ↓
+  MongoDB (Docker)
 ```
 
+- API-first backend
 - Stateless authentication
-- No UI layer
-- Infrastructure decoupled from application code
-
----
-
-## 📂 Project Structure
-
-```
-src/
-├── app.js                    # Express app configuration
-├── server.js                 # Server startup
-├── config/
-│   ├── env.js               # Environment validation
-│   └── db.js                # Database connection
-├── routes/
-│   ├── auth.routes.js       # Authentication routes
-│   └── health.routes.js     # Health check
-├── controllers/
-│   └── auth.controller.js   # Auth HTTP handlers
-├── services/
-│   └── auth.service.js      # Authentication business logic
-├── middlewares/
-│   └── auth.middleware.js   # JWT verification middleware
-└── models/
-    └── user.model.js        # User schema
-```
+- No frontend layer
+- Infrastructure decoupled from application logic
 
 ---
 
@@ -88,7 +81,7 @@ Implemented features:
 - Secure password hashing using bcrypt
 - JWT-based login
 - Stateless authentication
-- Route protection using middleware
+- Protected routes using middleware
 
 ### Authentication Flow
 
@@ -100,15 +93,37 @@ Request → JWT Middleware → Protected route
 
 ---
 
+## 🗂️ File Storage Design (Phase 2)
+
+### Key Design Principle
+**File bytes are never stored in the database.**
+
+The system separates:
+- **Metadata** → Database
+- **File content** → Object storage
+
+### Storage Strategy
+- Local development uses **MinIO** (S3-compatible object storage)
+- Production will use **AWS S3**
+- Backend never streams large files directly
+
+This ensures:
+- Scalability
+- Cloud portability
+- Cost efficiency
+- Clean separation of concerns
+
+---
+
 ## 🐳 Why Docker Is Used
 
-MongoDB runs inside Docker to:
+Docker is used to:
 - Avoid OS-specific installation issues
 - Ensure consistent local environments
 - Keep infrastructure reproducible and disposable
-- Reflect real-world backend practices
+- Mirror real-world backend workflows
 
-Application code remains unchanged regardless of infrastructure.
+Application code remains unchanged regardless of how infrastructure is run.
 
 ---
 
@@ -165,25 +180,29 @@ Authorization: Bearer <JWT_TOKEN>
 
 ## 📘 Documentation
 
-Architecture decisions and phase details are documented in the `docs/` directory.
+Architecture decisions and phase-by-phase notes are documented in the `docs/` directory:
+
+- `00-overview.md`
+- `01-local-development.md`
+- `02-file-storage-design.md`
 
 ---
 
 ## 🔮 Planned Phases
 
-- **Phase 2:** PostgreSQL (local)
-- **Phase 3:** Cloud deployment (AWS)
-- **Phase 4:** Scaling & performance
+- **Phase 2:** Local file upload & download (MinIO)
+- **Phase 3:** PostgreSQL & cloud deployment (AWS)
+- **Phase 4:** Performance, caching, and scaling
 - **Phase 5:** Production-grade architecture
 
-Each phase will be implemented incrementally and documented.
+Each phase is implemented incrementally and documented.
 
 ---
 
 ## 👤 Author
 
-**Akash Madan**  
-Backend-focused developer learning system design through hands-on projects.
+Akash Madan  
+Backend-focused developer building scalable systems through hands-on engineering and architectural design.
 
 ---
 
